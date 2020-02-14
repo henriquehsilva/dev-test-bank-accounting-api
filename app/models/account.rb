@@ -1,5 +1,8 @@
 class Account < ApplicationRecord
+  belongs_to :customer
+
   validates :number, uniqueness: true
+  validates :customer, presence: true
 
   before_validation :generate_account_number
 
