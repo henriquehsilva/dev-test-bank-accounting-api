@@ -1221,3 +1221,6 @@ Style/ZeroLengthPredicate:
 
 Layout/LineLength:
   Max: 120
+
+Metrics/BlockLength:
+  Max: 100
