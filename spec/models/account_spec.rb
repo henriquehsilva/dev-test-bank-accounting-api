@@ -32,12 +32,6 @@ RSpec.describe Account, type: :model do
         expect(subject.debit(300)).to eq(subject.amount)
       end
     end
-
-    context 'Class' do
-      it '#account_exists?' do
-        subject.class.send(:account_exists?, subject.number)
-      end
-    end
   end
 
   describe 'private methods' do

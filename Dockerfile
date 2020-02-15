@@ -5,10 +5,12 @@ RUN apt-get update \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/src/app
+ENV PROJECT_PAH = /usr/src
+
+WORKDIR ${PROJECT_PAH}
 COPY Gemfile* ./
 RUN bundle install
-COPY . /usr/src/app
+COPY . ${PROJECT_PAH}
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh

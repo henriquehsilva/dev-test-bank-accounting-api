@@ -12,15 +12,13 @@ class Account < ApplicationRecord
   end
 
   def credit(value)
-    self.amount += value if self.class.account_exists?(number)
+    self.amount += value
+    self.save
   end
 
   def debit(value)
-    self.amount -= value if self.class.account_exists?(number)
-  end
-
-  def self.account_exists?(account_number)
-    find_by(number: account_number)
+    self.amount -= value
+    self.save
   end
 
   private
