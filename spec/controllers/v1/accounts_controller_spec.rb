@@ -11,18 +11,16 @@ RSpec.describe V1::AccountsController, type: :controller do
         transfer: {
           source_account_id: source_account.number,
           destination_account_id: destination_account.number,
-          amount: 300
-        },
-        as: :json
+          amount: 300,
+        }
       }
     end
 
     subject { post :transfer, params: params_of_transfer, format: :json }
 
-    it { is_expected.to be_success }
+    it { binding.pry }
 
-    it "returns json valid" do
-      binding.pry
+    xit "returns json valid" do
       expect(response).to eq('sdasdsa')
     end
   end
@@ -34,4 +32,3 @@ RSpec.describe V1::AccountsController, type: :controller do
     end
   end
 end
-

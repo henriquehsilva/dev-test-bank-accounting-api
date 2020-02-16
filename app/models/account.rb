@@ -13,12 +13,12 @@ class Account < ApplicationRecord
 
   def credit(value)
     self.amount += value
-    self.save
+    save
   end
 
   def debit(value)
     self.amount -= value
-    self.save
+    save
   end
 
   private

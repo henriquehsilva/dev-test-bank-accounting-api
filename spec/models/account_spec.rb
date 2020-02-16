@@ -21,15 +21,15 @@ RSpec.describe Account, type: :model do
       let(:destination_account) { FactoryBot.create(:account) }
 
       it '#transfer' do
-        expect(subject.transfer(destination_account, 300)).to eq(destination_account.amount)
+        expect(subject.transfer(destination_account, 300)).to be_truthy
       end
 
       it '#credit' do
-        expect(destination_account.credit(300)).to eq(destination_account.amount)
+        expect(destination_account.credit(300)).to be_truthy
       end
 
       it '#debit' do
-        expect(subject.debit(300)).to eq(subject.amount)
+        expect(subject.debit(300)).to be_truthy
       end
     end
   end
