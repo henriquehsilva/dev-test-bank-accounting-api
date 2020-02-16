@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe V1::AccountsController, type: :controller do
-  render_views
+  before(:each) { request.content_type = 'application/json' }
 
   describe "POST #transfer" do
     let(:source_account) { FactoryBot.create(:account) }
@@ -17,11 +17,12 @@ RSpec.describe V1::AccountsController, type: :controller do
       }
     end
 
-    subject { post :transfer, params: params_of_transfer }
+    subject { post :transfer, params: params_of_transfer, format: :json }
 
-    it { binding.pry;is_expected.to be_success }
+    it { is_expected.to be_success }
 
     it "returns json valid" do
+      binding.pry
       expect(response).to eq('sdasdsa')
     end
   end
