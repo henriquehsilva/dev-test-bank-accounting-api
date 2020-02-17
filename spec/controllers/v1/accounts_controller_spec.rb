@@ -1,27 +1,48 @@
 require 'rails_helper'
 
 RSpec.describe V1::AccountsController, type: :controller do
-  before(:each) { request.content_type = 'application/json' }
+  render_views
+  subject { response }
+
+  let(:content_type) { subject.content_type }
+  let(:body) { JSON.parse(subject.body) }
+  let(:error_message) { body.pluck('error') }
 
   describe "POST #transfer" do
-    let(:source_account) { FactoryBot.create(:account) }
-    let(:destination_account) { FactoryBot.create(:account) }
-    let(:params_of_transfer) do
-      {
-        transfer: {
+    before(:each) { post :transfer, params: input_params }
+
+    let(:accounts) { FactoryBot.create_list(:account, 2) }
+    let(:source_account) { accounts.first }
+    let(:destination_account) { accounts.last }
+
+    let(:input_params) { { transfer: data_transfer } }
+
+    context 'valid request' do
+      let(:data_transfer) do
+        {
           source_account_id: source_account.number,
           destination_account_id: destination_account.number,
           amount: 300,
         }
-      }
+      end
+
+      it { expect(content_type).to eq('application/json; charset=utf-8') }
+      it { is_expected.to match_response_schema(:transfer_history) }
+      it { is_expected.to have_http_status(:ok) }
     end
 
-    subject { post :transfer, params: params_of_transfer, format: :json }
+    context 'invalid request' do
+      let(:data_transfer) do
+        {
+          source_account_id: Faker::Number.number(digits: 10),
+          destination_account_id: Faker::Number.number(digits: 10),
+          amount: -300,
+        }
+      end
 
-    it { binding.pry }
-
-    xit "returns json valid" do
-      expect(response).to eq('sdasdsa')
+      it { expect(error_message).to include(I18n.t('account.error.transfer')) }
+      it { expect(error_message).to include(I18n.t('account.error.negative_amount')) }
+      it { is_expected.to have_http_status(:failed_dependency) }
     end
   end
 

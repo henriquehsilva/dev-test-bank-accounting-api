@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "required": ["transfer_history"],
+  "properties": {
+    "transfer_history" : {
+      "type" : "object",
+      "required" : [
+        "source_account_id",
+        "destination_account_id",
+        "value",
+        "created_at"
+      ],
+      "properties" : {
+        "source_account_id" : { "type" : "string" },
+        "destination_account_id" : { "type" : "string" },
+        "value" : { "type" : "integer" },
+        "created_at" : { "type" : "string", "format": "date-time" }
+      }
+    }
+  }
+}

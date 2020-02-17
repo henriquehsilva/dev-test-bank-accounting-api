@@ -1,2 +1,1 @@
-json.error @error_message if @error_message
-json.transfer_history @transfer_history
+!@error_message.empty? ? json.partial!('transaction_error') : json.transfer_history(@transfer_history)

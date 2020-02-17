@@ -2,19 +2,23 @@ module V1
   class AccountsController < ApplicationController
     before_action :source_account,
                   :destination_account,
+                  :valid_amount,
                   :source_customer,
                   only: :transfer
 
+    def initialize
+      @error_message = []
+    end
+
     def transfer
       begin
-        @source_account.transfer(@destination_account, transfer_params[:amount])
+        @source_account.transfer(@destination_account, @amount)
         transfer_history
-        status_code = :ok
       rescue StandardError => e
-        @error_message = e.message
-        status_code = :failed_dependency
+        @error_message.push(e.message)
+        @status_code ||= :failed_dependency
       end
-      render status: status_code
+      render status: @status_code
     end
 
     def show
@@ -53,6 +57,14 @@ module V1
         :value,
         :created_at
       )
+    end
+
+    def valid_amount
+      @amount = transfer_params[:amount].to_i
+      if @amount.negative?
+        @error_message.push(I18n.t('account.error.negative_amount'))
+        @status_code ||= :failed_dependency
+      end
     end
   end
 end

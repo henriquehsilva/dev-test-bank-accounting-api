@@ -30,5 +30,6 @@ end
 
 group :test do
   gem 'database_cleaner', '~> 1.8'
+  gem 'json-schema', '~> 2.8', '>= 2.8.1'
   gem 'simplecov', '~> 0.18.1', require: false
 end
