@@ -30,4 +30,9 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  account:
+    error:
+      credit: Sorry, but it is not possible to do the credit! Destination account with the number information not exists.
+      debit: Sorry, but it is not possible to do the debit! Account with the number information not exists.
+      transfer: Sorry, but it is not possible to do the transfer! Source account with the number information not exists.
+      negative_amount: Sorry, but it is not possible to do the transfer! Amount value is negative.
